@@ -4,6 +4,8 @@ GitHub: https://github.com/chenzejiang/btc-price-watch 欢迎star！<br>
 PS: 如发现数据显示不正常，可以告知下作者更新接口地址<br>
 接口超时可以开全局翻墙试下
 
+![](https://github.com/chenzejiang/vscode-btc-price-watch/raw/master/img/btc-watch.gif)
+
 ## Configuration
 修改用户配置，添加你所需要监控的数字货币
 ```
@@ -18,7 +20,7 @@ PS: 如发现数据显示不正常，可以告知下作者更新接口地址<br>
    * 说明：轮询请求API时间
    * 单位：毫秒
    */
-  "btc-price-watch.updateInterval": 20000
+  "btc-price-watch.updateInterval": 10000
 ```
 
 ## 作者：
