@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 const axios = require('axios');
 const util = require('./util');
-const {API_ADDRESS} = require('./config/index');
+const {API_ADDRESS, HUOBI_LINK} = require('./config/index');
 const TreeProvider = require("./TreeProvider");
 
 class App {
@@ -65,7 +65,7 @@ class App {
             const { symbol } = item;
             const coinInfo = util.getHuobiCoinInfo(symbol.toUpperCase());
             const trading = coinInfo[1];
-            const link = `https://www.huobi.br.com/zh-cn/exchange/${coinInfo.join('_').toLowerCase()}`;
+            const link = `${HUOBI_LINK}${coinInfo.join('_').toLowerCase()}`;
             const isFocus = this.coins.indexOf(symbol) === -1 ? 0 : 1;
 
             if(trading === 'ETH' || trading === 'USDT' || trading === 'BTC'){
