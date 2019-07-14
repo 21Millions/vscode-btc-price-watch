@@ -16,9 +16,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:targetTree1",
-    "onCommand:aemp-debugger.openPreview",
-    "*"
+    "onView:USDT"
   ],
   "main": "./extension",
   "contributes": {
