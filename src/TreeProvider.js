@@ -1,6 +1,5 @@
 const vscode = require("vscode");
 const path = require("path");
-const config = require("./constants");
 class ItemLucky extends vscode.TreeItem {
     constructor(label, collapsibleState, command, iconPath) {
         super(label, collapsibleState);
