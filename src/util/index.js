@@ -31,6 +31,22 @@ const util = {
   getConfigurationTime() {
     const config = vscode.workspace.getConfiguration();
     return config.get('btc-price-watch.updateInterval');
+  },
+  /**
+   * 获取分割 symbol信息 
+   * 例：btcusdt = ['btc', 'usdt']
+   * @param {*} symbol 
+   */
+  getHuobiCoinInfo(symbol) {
+    let trading;
+    if (symbol.substr(-3) === 'ETH') {
+        trading = 'ETH';
+    } else if (symbol.substr(-3) === 'BTC') {
+        trading = 'BTC';
+    } else if (symbol.substr(-4) === 'USDT') {
+        trading = 'USDT';
+    }
+    return [symbol.split(trading)[0], trading];
   }
 }
 

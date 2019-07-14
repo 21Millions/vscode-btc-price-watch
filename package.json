@@ -2,7 +2,7 @@
   "name": "btc-watch",
   "displayName": "btc-watch",
   "description": "Vs Code配置状态栏查看 比特币，以太坊等400多种交易对价格，对接火币网API",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "publisher": "btc-watch",
   "keywords": [
     "btc",
@@ -58,21 +58,28 @@
           "name": "ETH"
         }
       ]
-    }
+    },
+    "commands": [
+      {
+        "command": "coin.focus",
+        "title": "启动测试环境(dev)"
+      }
+    ]
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.6",
-    "eslint": "^4.11.0",
+    "@types/mocha": "^2.2.42",
     "@types/node": "^7.0.43",
-    "@types/mocha": "^2.2.42"
+    "eslint": "^4.11.0",
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6"
   },
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "open": "^6.4.0"
   },
   "repository": {
     "type": "git",
