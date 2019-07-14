@@ -1,7 +1,8 @@
 // @ts-nocheck
 const vscode = require('vscode');
 const axios = require('axios');
-// import {TargetTreeProvider} from './src/TargetTreeProvider'
+const sortObj = require('./src/util/sort');
+
 const TreeProvider = require("./src/TreeProvider");
 const baseUrl = 'https://api.huobi.br.com';
 let statusBarItems = {};
@@ -9,31 +10,33 @@ let coins = [];
 let activateContext = null;
 let updateInterval = 10000;
 let timer = null;
-function activate(context) {
+
+/**
+ * 插件被激活时触发，所有代码总入口
+ * @param {*} context 插件上下文
+ */
+exports.activate = function(context) {
     activateContext = context;
     init();
     context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(handleConfigChange));
+    vscode.window.showInformationMessage("Hello World!");
+};
 
-    // vscode.window.registerTreeDataProvider("targetTree1", new TargetTreeProvider());
-    // context.subscriptions.push(
-    //     vscode.commands.registerCommand("aemp-debugger.openPreview", (url) => {
-    //         vscode.window.showInformationMessage("Hello World!");
-    //     })
-    // );
+/**
+ * 插件被释放时触发
+ */
+exports.deactivate = function() {
+    console.log('您的扩展“vscode-plugin-demo”已被释放！')
+};
+
+function addCoinNameLen(_str) {
+    const len = 5 - _str.length;
+    const emptyStr = new Array(len+1).join('');
+    return `${_str}${emptyStr}`;
 }
-
-function deactivate() {
-
-}
-
-module.exports = {
-	activate,
-	deactivate
-}
-
-
 
 function formatCoinData(data) {
+    data = data.sort(sortObj("close"));
     let coinArr = {
         'USDT': [],
         'ETH' : [],
@@ -43,11 +46,11 @@ function formatCoinData(data) {
         const { symbol } = item;
         const coinInfo = getHuobiCoinInfo(symbol.toUpperCase());
         const trading = coinInfo[1];
+        const isFocus = true ? 0 : 1;
         if(trading === 'ETH' || trading === 'USDT' || trading === 'BTC'){
             const newItem = {
-                label: `「${coinInfo[0]}」${item.close} ${item.close > item.open ? '📈' : '📉'} ${((item.close - item.open) / item.open * 100).toFixed(2)}%`,
-                icon: "star0.png",
-                focus: 0,
+                label: `「${addCoinNameLen(coinInfo[0])}」${item.close} ${item.close > item.open ? '📈' : '📉'} ${((item.close - item.open) / item.open * 100).toFixed(2)}%`,
+                icon: `star${isFocus}.png`,
                 symbol: symbol,
                 extension: "lucky.gao.extension.start_dev"
             }
