@@ -52,17 +52,13 @@
         {
           "id": "USDT",
           "name": "USDT"
-        },
-        {
-          "id": "ETH",
-          "name": "ETH"
         }
       ]
     },
     "commands": [
       {
         "command": "coin.focus",
-        "title": "启动测试环境(dev)"
+        "title": "跳转到浏览器火币网地址"
       }
     ]
   },

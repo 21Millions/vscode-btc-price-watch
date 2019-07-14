@@ -43,7 +43,6 @@ class App {
             }
         }).
         catch((error) => {
-            console.log(this.statusBarItems['error'] == null);
             if (this.statusBarItems['error'] == null) {
                 this.statusBarItems['error'] = this.createStatusBarItem(`错误${error}`);
                 console.error(error);
