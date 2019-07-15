@@ -2,10 +2,12 @@
   "name": "btc-watch",
   "displayName": "btc-watch",
   "description": "Vs Code配置状态栏查看 比特币，以太坊等400多种交易对价格，对接火币网API",
-  "version": "1.0.12",
+  "version": "1.1.0",
   "publisher": "btc-watch",
   "keywords": [
     "btc",
+    "eth",
+    "blockchain",
     "vscode"
   ],
   "icon": "img/icon.png",
