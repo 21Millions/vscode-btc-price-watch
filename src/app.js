@@ -12,7 +12,7 @@ class App {
         this.updateInterval = util.getConfigurationTime()
         this.timer = null;
         this.init();
-        context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(this.handleConfigChange));
+        context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => this.handleConfigChange()));
     }
     /*
      * 配置文件改变触发
@@ -43,10 +43,11 @@ class App {
             }
         }).
         catch((error) => {
-            if (this.statusBarItems['error'] == null) {
-                this.statusBarItems['error'] = this.createStatusBarItem(`错误${error}`);
-                console.error(error);
-            }
+            console.error(error);
+            // if (this.statusBarItems['error'] == null) {
+            //     this.statusBarItems['error'] = this.createStatusBarItem(`错误${error}`);
+            //     console.error(error);
+            // }
         });
     }
     /**
@@ -118,6 +119,10 @@ class App {
         return barItem;
     }
     init() {
+        /* 每次init重新更新配置文件的内容 */
+        this.coins = util.getConfigurationCoin();
+        this.updateInterval = util.getConfigurationTime()
+
         this.fetchAllData();
         this.timer = setInterval(() => {
             this.fetchAllData();
