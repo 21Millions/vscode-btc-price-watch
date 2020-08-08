@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 const axios = require('axios');
 const util = require('./util');
-const {API_ADDRESS, HUOBI_LINK} = require('./config/index');
+const {GET_EXCHANGE_INFO} = require('./config/index');
 const TreeProvider = require("./TreeProvider");
 
 class App {
@@ -9,8 +9,10 @@ class App {
         this.activateContext = context;
         this.statusBarItems = {};
         this.coins = util.getConfigurationCoin();
-        this.updateInterval = util.getConfigurationTime()
+        this.updateInterval = util.getConfigurationTime();
         this.timer = null;
+        this.API_ADDRESS = ''; // 交易对地址
+        this.HUOBI_LINK = ''; // 火币网真实交易地址
         this.init();
         context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => this.handleConfigChange()));
     }
@@ -34,7 +36,7 @@ class App {
      */
     fetchAllData() {
         // @ts-ignore
-        axios.get(API_ADDRESS)
+        axios.get(this.API_ADDRESS)
         .then((rep) => {
             const result = rep.data;
             if (result.status === 'ok' && result.data.length) {
@@ -46,7 +48,6 @@ class App {
             console.error(error);
             // if (this.statusBarItems['error'] == null) {
             //     this.statusBarItems['error'] = this.createStatusBarItem(`错误${error}`);
-            //     console.error(error);
             // }
         });
     }
@@ -66,7 +67,7 @@ class App {
             const { symbol } = item;
             const coinInfo = util.getHuobiCoinInfo(symbol.toUpperCase());
             const trading = coinInfo[1];
-            const link = `${HUOBI_LINK}${coinInfo.join('_').toLowerCase()}`;
+            const link = `${this.HUOBI_LINK}${coinInfo.join('_').toLowerCase()}`;
             const isFocus = this.coins.indexOf(symbol) === -1 ? 0 : 1;
 
             if(trading === 'ETH' || trading === 'USDT' || trading === 'BTC'){
@@ -118,7 +119,10 @@ class App {
         barItem.show();
         return barItem;
     }
-    init() {
+    /**
+     * 动态获取交易所api地址
+     */
+    watcher(){
         /* 每次init重新更新配置文件的内容 */
         this.coins = util.getConfigurationCoin();
         this.updateInterval = util.getConfigurationTime()
@@ -127,6 +131,15 @@ class App {
         this.timer = setInterval(() => {
             this.fetchAllData();
         }, this.updateInterval);
+    }
+    init() {
+        // @ts-ignore
+        axios.get(GET_EXCHANGE_INFO)
+        .then((res) => {
+            this.API_ADDRESS = res.data.API_ADDRESS;
+            this.HUOBI_LINK = res.data.HUOBI_LINK;
+            this.watcher();
+        })
     }
 }
 module.exports = App;
